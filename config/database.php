@@ -33,6 +33,8 @@ return [
     |
     */
 
+    // database version: 10.4.18-MariaDB
+
     'connections' => [
 
         'sqlite' => [

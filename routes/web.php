@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,18 +13,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [ClientesController::class, "index"])->name("clientes");
 
-Route::get('clientes/inserir', [ClientesController::class, "create"])->name("clientes.inserir");
+Route::group(['middleware' => ['web']], function () {
 
-Route::get('clientes/{id}', [ClientesController::class, "show"])->name("clientes.detalhes");
+    Route::get('view/clients', [ClientController::class, 'index'])->name('clients.get.view');
 
-Route::post('clientes', [ClientesController::class, "insert"])->name("clientes.insert");
+    Route::get('view/client/{id}', [ClientController::class, 'viewClient'])->name('client.get.view');    
 
-Route::get('clientes/{cliente}/edit', [ClientesController::class, "edit"])->name("clientes.edit");
+    Route::get('new/client', [ClientController::class, 'pageCreateClient'])->name('client.get.new');
 
-Route::put('clientes/{cliente}', [ClientesController::class, "editar"])->name("clientes.editar");
+    Route::post('new/client', [ClientController::class, 'createClient'])->name('client.post.new');
+    
+    Route::get('edit/client/{client}', [ClientController::class, 'pageEditClient'])->name('client.get.edit');
 
-Route::delete('clientes/{cliente}', [ClientesController::class, "delete"])->name("clientes.delete");
+    Route::put('edit/client/{client}', [ClientController::class, 'editClient'])->name('client.put.edit');
 
-Route::post('clientes/search', [ClientesController::class, "search"])->name("clientes.search");
+    Route::delete('delete/client/{client}', [ClientController::class, 'deleteClient'])->name('client.delete.delete');
+
+    Route::post('search/clients/', [ClientController::class, 'searchClient'])->name('clients.post.search');
+
+});
